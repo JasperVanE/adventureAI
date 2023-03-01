@@ -1,0 +1,26 @@
+Describe 10 locations on an off-planet space station collecting energy from a star shared with different species. Provide the answer in a javascript format of a function that returns JSON.
+Example:
+const adventureAI = () => ({
+roomId: 'foyer', // the ID of the room the player starts in
+rooms: [
+  {
+    id: 'foyer', // unique ID for this room
+    name: 'The Foyer', // room name (shown when player enters the room)
+    // room description (shown when player first enters the room)
+    desc:  "Welcome to the **TEXT-ENGINE** demo disk! This disk is a text adventure game designed to introduce you to the features available to you in **text-engine**. Using this engine, you can make a text game of your own.",
+    exits: [
+      // GO NORTH command leads to the Reception Desk
+      {dir: 'north', id: 'reception'},
+    ],
+  },
+  {
+    id: 'reception',
+    name: 'Reception Desk',
+    desc: "**BENJI** is here. I'm sure he'd be happy to tell you more about the features available in **text-engine**.",
+    exits: [
+      // exits with a BLOCK cannot be used, but print a message instead
+      {dir: 'south', id: 'foyer'},
+    ],
+  },
+],
+});
