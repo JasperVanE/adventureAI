@@ -1,11 +1,15 @@
+Embed some code in wordpress:
+
 emgithub.com, so adding em before github.com in a URL takes you a page that provide an embed to use on webpages, just like a github gist would do.
 https://stackoverflow.com/questions/37206157/can-i-embed-source-files-from-github-on-my-web-page-other-than-gists
 
-In wordpress
 to embed the copied snippet, you’ll want to go to your post or page you are editing (with the Gutenberg editor), 
 go to the place just above where you want the code snippet, and hit enter to create a blank space/line. 
 Click the plus icon to the right of the blank space and search for the block named “Custom HTML” and choose it.
 https://www.sindastra.de/p/1639/how-to-embed-a-github-gist-code-snippet-in-wordpress-or-any-site
 
-host some static html pages on github
+
+host some static html pages on github - get running text-engine pages from Github:
+
+https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site
 https://docs.github.com/en/pages/quickstart
