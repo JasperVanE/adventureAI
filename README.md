@@ -6,4 +6,4 @@ ai-adventure.py is the python code that creates a game file using a prompt to GP
 
 updated_index.js is a file from https://github.com/okaybenji/text-engine changed to show the images in game. docs folder contains complete text-engine with game-disks and images created by script during development.
 
-ai-adventure.py expects a .env file in the same folder as the script. Fill and rename env-example file.
+ai-adventure.py expects a .env file in the same folder as the script. Fill and rename env.example file.
