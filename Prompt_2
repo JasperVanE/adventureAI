@@ -1,0 +1,31 @@
+Describe 5 locations connected through exits in a desert where danger lurks. Use two sentences for each description. Provide the answer in a javascript format of a function that returns JSON.
+Example:
+const adventureAI = () => (
+{
+  "roomId":"foyer",
+  "rooms":[
+      {
+        "id":"foyer",
+        "name":"The Foyer",
+        "desc":"Welcome to the Foyer, a lovely room to meet people and start your adventure.",
+        "exits":[
+            {
+              "dir":"north",
+              "id":"reception"
+            }
+        ]
+      },
+      {
+        "id":"reception",
+        "name":"Reception Desk",
+        "desc":"A basic desk for all kinds of information. **BENJI** is here.",
+        "exits":[
+            {
+              "dir":"south",
+              "id":"foyer"
+            }
+        ]
+      }
+  ]
+}
+);
