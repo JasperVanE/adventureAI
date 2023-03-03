@@ -6,14 +6,19 @@ from pathlib import Path
 from base64 import b64decode
 
 # The description to create the game
+locations_amount = '10'
 # description = 'An desert where danger lurks.'
-description = 'an off-planet space station collecting energy from a star shared with different species.'
-# img_style = 'in a graphic novel style with a slightly yellowish tint'
-img_style = 'in a sci-fi cyberpunk style cinematic, detailed, with a slightly blueish tint'
+description = 'a beautiful vacation island run by AI.'
+# img_style = 'a graphic novel style with a slightly yellowish tint'
+# img_style = 'a sci-fi cyberpunk style cinematic, detailed, with a slightly blueish tint'
+img_style = 'techno, concrete and nature, sunny, high resolution, cinematic, \'falling water\' by Frank Lloyd Wright'
 # img_size = "256x256"
-img_size = "512x512"
+# img_size = "512x512"
+img_size = "1024x1024"
 
 # ----------------------------
+
+print('\n...Lets go!\n')
 
 # load the API key from a .env file placed in the same directory as script - .env file does not move to other environmnents.
 load_dotenv()
@@ -26,7 +31,8 @@ DATA_DIR = Path.cwd() / "game-disks"
 DATA_DIR.mkdir(exist_ok=True)
 
 # Create the prompt to use with GPT, using the description
-game_prompt = 'Describe 5 locations connected through exits in ' + description + """ Use two sentences for each description. Provide the answer in a javascript format of a function that returns JSON.
+game_prompt = 'Describe ' + locations_amount + ' locations connected through exits in the following location: ' + description + 'Include descriptions of some objects or persons in the text.' + """
+Provide the answer in a javascript format of a function that returns JSON.
 Example:
 const adventureAI = () => (
 {
@@ -35,7 +41,7 @@ const adventureAI = () => (
       {
         "id":"foyer",
         "name":"The Foyer",
-        "desc":"Welcome to the Foyer, a lovely room to meet people and start your adventure.",
+        "desc":"Welcome to the Foyer, a lovely room to meet people and start your adventure. A large **DESK** is placed near a door.",
         "exits":[
             {
               "dir":"north",
@@ -46,7 +52,7 @@ const adventureAI = () => (
       {
         "id":"reception",
         "name":"Reception Desk",
-        "desc":"A basic desk for all kinds of information. **BENJI** is here.",
+        "desc":"A basic desk for all kinds of information, the desks looks polished and has stacks of **PAPER** on it. **BENJI** is here, looks like he works here.",
         "exits":[
             {
               "dir":"south",
@@ -58,6 +64,8 @@ const adventureAI = () => (
 }
 );"""
 
+print('...Prompting GPT\n')
+
 # Get the response from GPT
 response = openai.Completion.create(
   model="text-davinci-003",
@@ -67,7 +75,7 @@ response = openai.Completion.create(
   frequency_penalty=0,
   presence_penalty=0
 )
-
+print('...Processing result\n')
 # Response data we need for game file
 response_data = (response.choices[0].text)
 
@@ -79,6 +87,7 @@ game_name = game_name.strip()
 begin, end = response_data.find('{'), response_data.rfind('}')
 json_data = response_data[begin: end+1]
 
+print('...Writing game disk\n')
 # Create file name for the gamefile based on  so we can use it from the game
 filename = game_name + ".js"
 game_file = DATA_DIR / filename
@@ -89,12 +98,13 @@ with open(game_file, mode="w") as js_file:
 # Load the JSON data from string into structured data
 data = json.loads(json_data)
 
+print('...Getting room images from DALL-E\n')
 # Proces every room descibed in the JSON file
 for room in data['rooms']:
     roomid = room["id"]
     # Create prompt
-    imageprompt = room["name"]+ ' - ' + room["desc"] + ' in ' + description + ' ' + img_style
-    print('...getting image for\nid: ' + roomid + ' prompt: ' + imageprompt)
+    imageprompt = room["name"]+ ' - ' + room["desc"] + ' in ' + description + ' style:' + img_style
+    print('image for id: ' + roomid + ' prompt: ' + imageprompt +'\n')
     # Get image from DALL-E, response_format parameter asks for base64 encoded data in response. Other option is to get URL and retrieve using that.
     response_image = openai.Image.create(
     prompt=imageprompt,
@@ -102,6 +112,7 @@ for room in data['rooms']:
     size=img_size,
     response_format="b64_json"
     )
+    print('...Process and write image\n')
     # Create file name for dumping of recieved data in a JSON file. We don't need it anymore, but could be handy.
     # file_name_json = IMG_DIR / f"{imageprompt[:5]}-{response_image['created']}.json"
     # with open(file_name_json, mode="w", encoding="utf-8") as file:
