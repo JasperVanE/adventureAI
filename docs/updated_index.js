@@ -970,8 +970,8 @@ let enterRoom = (id) => {
     // hacketyhack
     var imgfile = new Image();
     imgfile.src = 'img/' + `${getName(room.id)}` + '.png';
-    imgfile.height = 500;
-    imgfile.width = 500;
+    imgfile.height = 800;
+    imgfile.width = 800;
     printQueue.push(imgfile);
     // hacketyhack
     println(`${getName(room.name)}`, 'room-name');
